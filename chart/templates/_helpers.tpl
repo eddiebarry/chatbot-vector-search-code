@@ -52,27 +52,27 @@ deploymentconfig: {{ include "project.fullname" . }}
 {{- end -}}
 
 {{/*
-  Create a short chitchat name.
+  Create a short search name.
   We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
-{{- define "chitchat.name" -}}
+{{- define "search.name" -}}
 {{- printf "%s" .Chart.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
-  Create a default fully qualified chitchat name.
+  Create a default fully qualified search name.
   We truncate at 63 chars because some Kubernetes name fields are limited to this (by the DNS naming spec).
 */}}
-{{- define "chitchat.fullname" -}}
+{{- define "search.fullname" -}}
 {{- printf "%s" .Release.Name | trunc 63 | trimSuffix "-" -}}
 {{- end -}}
 
 {{/*
 Common labels
 */}}
-{{- define "chitchat.labels" -}}
+{{- define "search.labels" -}}
 helm.sh/chart: {{ include "project.chart" . }}
-{{ include "chitchat.selectorLabels" . }}
+{{ include "search.selectorLabels" . }}
 {{- if .Chart.AppVersion }}
 app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
 {{- end }}
@@ -80,12 +80,12 @@ app.kubernetes.io/managed-by: {{ .Release.Service }}
 {{- end -}}
 
 {{/*
-Selector labels chitchat
+Selector labels search
 */}}
-{{- define "chitchat.selectorLabels" -}}
-app.kubernetes.io/name: {{ include "chitchat.name" . }}
+{{- define "search.selectorLabels" -}}
+app.kubernetes.io/name: {{ include "search.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
-deploymentconfig: {{ include "chitchat.fullname" . }}
+deploymentconfig: {{ include "search.fullname" . }}
 {{- end -}}
 
 {{- define "logging.fullname" -}}
