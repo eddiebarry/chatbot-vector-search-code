@@ -1,0 +1,13 @@
+{{- if eq .Values.search.enabled true -}}
+kind: Route
+apiVersion: route.openshift.io/v1
+metadata:
+  name: {{ include "search.name" . }}
+  labels:
+    {{- include "search.labels" . | nindent 4 }}
+spec:
+  host: 
+  to:
+    kind: Service
+    name: "{{ include "search.fullname" . }}"
+{{- end }}

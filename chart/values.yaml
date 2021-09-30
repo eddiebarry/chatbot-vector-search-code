@@ -1,0 +1,23 @@
+search:
+  name: search
+  enabled: false
+  build: false
+  image_stream: false
+  route: true
+  service: true
+  image_name: chatbot-search
+
+redis:
+  name: redis
+  enabled: true
+  memory_limit: 512Mi
+  is_namespace: openshift
+  redis_password: 'password'
+  redis_version: "5"
+  volume_capacity: 1Gi
+  service:
+    port: 6379
+    
+logname: vla-log
+
+version_host: http://feature-data-pipeline-vla-data-ingestion-data-labs-dev.apps.dev.lxp.academy.who.int/versioning-filter/

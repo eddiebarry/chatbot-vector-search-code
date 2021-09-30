@@ -1,0 +1,8 @@
+recursive-include data_gen *.*
+recursive-include production_data *.*
+recursive-include chart *.*
+include *.sh
+include *.yaml
+include *.py
+include .env
+include Dockerfile

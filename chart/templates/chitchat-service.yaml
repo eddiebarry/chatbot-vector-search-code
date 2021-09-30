@@ -1,0 +1,17 @@
+{{- if eq .Values.search.enabled true -}}
+kind: Service
+apiVersion: v1
+metadata:
+  name: {{ include "search.fullname" . }}
+  labels:
+    {{- include "search.labels" . | nindent 4 }}
+  annotations:
+    description: Exposes and load balances the application pods got search
+spec:
+  ports:
+  - protocol: TCP
+    port: 8000
+    targetPort: 8000
+  selector:
+     {{- include "search.selectorLabels" . | nindent 4 }}
+{{- end }}

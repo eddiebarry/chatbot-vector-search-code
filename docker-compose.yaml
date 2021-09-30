@@ -1,0 +1,19 @@
+version: "2"
+
+services:
+    redis:
+        image: 'redis:5-alpine'
+        command: redis-server --requirepass password
+        ports:
+            - "6379:6379"
+
+    chitchat:
+        build: .
+        depends_on:
+            - "redis"
+        environment:
+            NUM_WORKERS: 1
+            REDIS_HOST: redis
+            REDIS_PASSWORD: password
+        ports:
+            - "8001:8000"

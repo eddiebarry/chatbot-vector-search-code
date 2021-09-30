@@ -1,0 +1,45 @@
+{{- if eq .Values.search.enabled true -}}
+kind: DeploymentConfig
+apiVersion: apps.openshift.io/v1
+metadata:
+  name: {{ include "search.name" . }}
+  labels:
+    {{- include "search.labels" . | nindent 4 }}
+  annotations:
+    description: Defines how to deploy the application server
+    template.alpha.openshift.io/wait-for-ready: 'true'
+spec:
+  strategy:
+    type: Rolling
+  triggers:
+  - type: ConfigChange
+  replicas: 1
+  selector:
+    {{- include "search.selectorLabels" . | nindent 4 }}
+  template:
+    metadata:
+      labels:
+        {{- include "search.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+      - image: "{{ .Values.search.image_repository }}/{{ .Values.search.image_namespace | default .Release.Namespace }}/{{ .Values.search.image_name }}:{{ .Values.search.image_tag }}"
+        name: {{ include "search.name" . }}
+        ports:
+          - containerPort: 8000
+        env:
+          - name: LOG_HOST
+            value: "{{ template "logging.fullname" . }}"
+          - name: VERSION_HOST
+            value: {{ .Values.version_host }}
+          - name: NUM_WORKERS
+            value: "3"
+          - name: REDIS_HOST
+            value: {{ template "redis.fullname" . }}
+          - name: REDIS_PASSWORD
+            value: {{ .Values.redis.redis_password }}
+          - name: TRANSFORMERS_CACHE
+            value: /app/vector/cache
+          - name: TOKENIZERS_PARALLELISM
+            value: "false"
+        imagePullPolicy: Always
+{{- end }}
