@@ -17,7 +17,7 @@ import flask
 from flask import request, jsonify
 from flask_caching import Cache
 
-from demo import populate_questions
+# from demo import populate_questions
 from preprocessing import preprocess
 from sentence_transformers import SentenceTransformer, util
 
