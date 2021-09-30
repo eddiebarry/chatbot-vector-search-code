@@ -1,6 +1,6 @@
 search:
   name: search
-  enabled: false
+  enabled: true
   build: false
   image_stream: false
   route: true

@@ -175,25 +175,25 @@ pipeline {
                 echo '### Get Binary from Nexus and shove it in a box ###'
 
                 echo '### Chit-Chat ###'
-                sh  '''
-                    rm -rf ${CHIT_CHAT_PACKAGE}
-                    curl -v -f -u ${NEXUS_CREDS} http://${SONATYPE_NEXUS_SERVICE_SERVICE_HOST}:${SONATYPE_NEXUS_SERVICE_SERVICE_PORT}/repository/${NEXUS_REPO_NAME}/${APP_NAME}/${CHIT_CHAT_PACKAGE} -o ${CHIT_CHAT_PACKAGE}
-                    BUILD_ARGS=" --build-arg git_commit=${GIT_COMMIT} --build-arg git_url=${GIT_URL}  --build-arg build_url=${RUN_DISPLAY_URL} --build-arg build_tag=${BUILD_TAG}"
-                    echo ${BUILD_ARGS}
-                    oc delete bc ${APP_NAME} || rc=$?
-                    if [[ $TARGET_NAMESPACE == *"dev"* ]]; then
-                        echo "🏗 Creating a sandbox build for inside the cluster 🏗"
-                        oc new-build --binary --name=${APP_NAME} -l app=${APP_NAME} ${BUILD_ARGS} --strategy=docker || rc=$?
-                        oc start-build ${APP_NAME} --from-archive=${CHIT_CHAT_PACKAGE} ${BUILD_ARGS} --follow
-                        # used for internal sandbox build ....
-                        oc tag ${OPENSHIFT_BUILD_NAMESPACE}/${APP_NAME}:latest ${TARGET_NAMESPACE}/${APP_NAME}:${VERSION}
-                    else
-                        echo "🏗 Creating a potential build that could go all the way so pushing externally 🏗"
-                        oc new-build --binary --name=${APP_NAME} -l app=${APP_NAME} ${BUILD_ARGS} --strategy=docker --push-secret=${QUAY_PUSH_SECRET} --to-docker --to="${IMAGE_REPOSITORY}/${TARGET_NAMESPACE}/${APP_NAME}:${VERSION}"
-                        oc set build-secret --pull bc/${APP_NAME} ${QUAY_PUSH_SECRET}
-                        oc start-build ${APP_NAME} --from-archive=${CHIT_CHAT_PACKAGE} ${BUILD_ARGS} --follow
-                    fi
-                '''
+                // sh  '''
+                //     rm -rf ${CHIT_CHAT_PACKAGE}
+                //     curl -v -f -u ${NEXUS_CREDS} http://${SONATYPE_NEXUS_SERVICE_SERVICE_HOST}:${SONATYPE_NEXUS_SERVICE_SERVICE_PORT}/repository/${NEXUS_REPO_NAME}/${APP_NAME}/${CHIT_CHAT_PACKAGE} -o ${CHIT_CHAT_PACKAGE}
+                //     BUILD_ARGS=" --build-arg git_commit=${GIT_COMMIT} --build-arg git_url=${GIT_URL}  --build-arg build_url=${RUN_DISPLAY_URL} --build-arg build_tag=${BUILD_TAG}"
+                //     echo ${BUILD_ARGS}
+                //     oc delete bc ${APP_NAME} || rc=$?
+                //     if [[ $TARGET_NAMESPACE == *"dev"* ]]; then
+                //         echo "🏗 Creating a sandbox build for inside the cluster 🏗"
+                //         oc new-build --binary --name=${APP_NAME} -l app=${APP_NAME} ${BUILD_ARGS} --strategy=docker || rc=$?
+                //         oc start-build ${APP_NAME} --from-archive=${CHIT_CHAT_PACKAGE} ${BUILD_ARGS} --follow
+                //         # used for internal sandbox build ....
+                //         oc tag ${OPENSHIFT_BUILD_NAMESPACE}/${APP_NAME}:latest ${TARGET_NAMESPACE}/${APP_NAME}:${VERSION}
+                //     else
+                //         echo "🏗 Creating a potential build that could go all the way so pushing externally 🏗"
+                //         oc new-build --binary --name=${APP_NAME} -l app=${APP_NAME} ${BUILD_ARGS} --strategy=docker --push-secret=${QUAY_PUSH_SECRET} --to-docker --to="${IMAGE_REPOSITORY}/${TARGET_NAMESPACE}/${APP_NAME}:${VERSION}"
+                //         oc set build-secret --pull bc/${APP_NAME} ${QUAY_PUSH_SECRET}
+                //         oc start-build ${APP_NAME} --from-archive=${CHIT_CHAT_PACKAGE} ${BUILD_ARGS} --follow
+                //     fi
+                // '''
             }
         }
 
