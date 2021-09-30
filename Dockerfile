@@ -117,8 +117,6 @@ ENV LC_ALL en_US.UTF-8
 
 # Working directory will be root of repo.
 WORKDIR /app/vector
-COPY requirements_large.txt requirements_large.txt
-RUN pip install -r requirements_large.txt
 
 # Copy just Python requirements & install them.
 COPY requirements.txt requirements.txt
