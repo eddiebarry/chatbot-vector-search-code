@@ -12,8 +12,12 @@ services:
         depends_on:
             - "redis"
         environment:
-            NUM_WORKERS: 1
+            NUM_WORKERS: 3
             REDIS_HOST: redis
             REDIS_PASSWORD: password
+            LOG_HOST: password
+            VERSION_HOST: https://feature-new-variations-vla-data-ingestion-data-labs-dev.apps.dev.lxp.academy.who.int/versioning-filter/
+            TRANSFORMERS_CACHE: /app/vector/cache
+            TOKENIZERS_PARALLELISM: "false"
         ports:
-            - "8001:8000"
+            - "8000:8000"

@@ -6,7 +6,9 @@
 # base_url = "http://vla-chitchat-labs-staging.apps.dev.lxp.academy.who.int"
 # base_url = "http://feature-autmation-vla-search-labs-dev.apps.dev.lxp.academy.who.int"
 # base_url = "http://feature-autmation-vla-chitchat-labs-dev.apps.dev.lxp.academy.who.int"
-# # # base_url ="http://0.0.0.0:8000"
+
+base_url = "0.0.0.0:8000"
+# base_url ="http://feature-new-data-test-vla-search-labs-dev.apps.dev.lxp.academy.who.int"
 
 # # qry = 'do you like tacos and burritos and quentin tarantino ?'
 
@@ -50,16 +52,17 @@
 
 
 
-# # # get closest
-# # params = {
-# #     "query": "when will it be available",
-# #     "project_id":"1",
-# #     "version_id":"1",
-# # }
+# get closest
+for x in range(10):
+    import requests, json
+    params = {
+        "query": "when will it be available",
+    }
 
-# # r = requests.get(base_url+"/get-closest", data=json.dumps(params))
-# # response  = r.json()
-# # import pdb; pdb.set_trace()
+    r = requests.get(base_url+"/get-closest", data=json.dumps(params))
+    response  = r.json()
+    print(response)
+import pdb; pdb.set_trace()
 
 # # # get closest top_k
 # # params = {
