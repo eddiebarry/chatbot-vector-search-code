@@ -11,6 +11,8 @@ services:
         build: .
         depends_on:
             - "redis"
+        volumes:
+            - ./:/app/vector
         environment:
             NUM_WORKERS: 3
             REDIS_HOST: redis
